@@ -1,0 +1,87 @@
+
+import React, { useContext, useState } from 'react'
+import './Place.css'
+import { StoreContext } from '../../context/StoreContext'
+
+const PlaceOrder = () => {
+
+const { getTotalCartAmount } = useContext(StoreContext)
+const [abc , setAbc] = useState({})
+
+const ordDummy = (e) => {
+   e.preventDefault()
+   
+   // Check if all required fields are filled
+   if(!abc.fname || !abc.lname || !abc.mail || !abc.strt || !abc.city || !abc.st || !abc.Zc || !abc.country || !abc.phnum){
+     alert("Please fill all fields!")
+     return
+   }
+   
+   alert("Order Succesfully..!, Varun Will Update you on Notifications")
+   console.log(abc)
+}
+
+const handleChange = (e) => {
+  let name = e.target.name
+  let value = e.target.value
+  setAbc({
+   ...abc,
+   [name] : value
+  })
+}
+
+  return (
+    <form onSubmit={ordDummy} className='place-order'>
+
+      <div className="place-order-left">
+     <p className="title">Delivery Information</p>
+     <div className="multi-fields">
+      <input type="text" onChange={handleChange} name='fname' value={abc.fname || ''}   placeholder='First Name' />
+      <input type="text" onChange={handleChange} name='lname' value={abc.lname || ''}  placeholder='Last Name' />
+     </div>
+     <input type="email" onChange={handleChange} name='mail' value={abc.mail || ''}  placeholder='Email address' />
+     <input type="text" onChange={handleChange} name='strt' value={abc.strt || ''}  placeholder='Street' />
+     <div className="multi-fields">
+      <input type="text" onChange={handleChange} name='city' value={abc.city || ''} placeholder='City' />
+      <input type="text" onChange={handleChange} name='st' value={abc.st || ''} placeholder='State' />
+     </div>
+     <div className="multi-fields">
+      <input type="text" onChange={handleChange} name='Zc' value={abc.Zc || ''} placeholder='Zip Code' />
+      <input type="text" onChange={handleChange} name='country' value={abc.country || ''} placeholder='Country' />
+     </div>
+     <input type="text" onChange={handleChange} name='phnum' value={abc.phnum || ''} placeholder='Phone' />
+     <button className='btnn' >Cash On Delivery</button>
+      </div>
+
+     
+      <div className="place-order-right">
+      <div className="cart-total">
+            <h2>cart Totals</h2>
+            <div>
+            <div className="cart-total-details">
+                <p>Subtotal</p>
+                <p>${getTotalCartAmount()}</p>
+              </div>
+              <hr />
+              <div className="cart-total-details">
+                <p>Delivery Fee</p>
+                <p>${getTotalCartAmount()===0?0:50}</p>
+              </div>
+              <hr />
+              <div className="cart-total-details">
+                <b>Total</b>
+                <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+50}</b>
+              </div>
+              
+            </div>
+            <button >PROCCED TO PAYMENT</button>
+            <small>Before you procced fill delivery Info, -address-.</small>
+          </div>
+      </div>
+
+    </form>
+  )
+}
+
+export default PlaceOrder
+
