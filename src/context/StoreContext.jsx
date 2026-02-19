@@ -5,7 +5,7 @@ export const StoreContext = createContext(null)
 const StoreContextProvider = (props) => {
 
     const [cartItems, setcartItems] = useState({})
-    const url = "http://localhost:4000"
+    const url = process.env.REACT_APP_API_URL || "http://localhost:4000"
     const [token , setToken] = useState("")
     
 
