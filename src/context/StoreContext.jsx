@@ -5,7 +5,7 @@ export const StoreContext = createContext(null)
 const StoreContextProvider = (props) => {
 
     const [cartItems, setcartItems] = useState({})
-    const url = process.env.REACT_APP_API_URL || "http://localhost:4000"
+    const url = process.env.REACT_APP_API_URL || "https://backend-fr3a.vercel.app"
     const [token , setToken] = useState("")
     
     // Create axios instance with credentials
