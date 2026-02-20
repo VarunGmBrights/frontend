@@ -13,7 +13,7 @@ const [data,setData] = useState([])
 const fetchOrders = async () => {
    try {
     
-const response = await axios.post(url+"/api/order/userorders",{},{headers:{token}})
+const response = await axios.post(url+"/api/order/userorders",{},{headers:{Authorization: token}, withCredentials: true})
      
      setData(response.data.data);
    } catch (error) {

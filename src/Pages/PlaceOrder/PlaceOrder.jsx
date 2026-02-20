@@ -37,8 +37,13 @@ const placeOrder = async (e) => {
           let orderItems = [];
           food_list.map((item)=>{
             if (cartItems[item._id]>0) {
-              let itemInfo = item;
-              itemInfo["quantity"] = cartItems[item._id];
+              // Send only essential data to reduce payload size
+              let itemInfo = {
+                _id: item._id,
+                name: item.name,
+                price: item.price,
+                quantity: cartItems[item._id]
+              };
               orderItems.push(itemInfo)
             }
           })
@@ -50,7 +55,7 @@ const placeOrder = async (e) => {
 
          }
 
-         let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}})
+         let response = await axios.post(url+"/api/order/place",orderData,{headers:{Authorization: token}, withCredentials: true})
          if (response.data.success) {
           const {session_url} = response.data;
           window.location.replace(session_url);

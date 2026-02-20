@@ -8,6 +8,11 @@ const StoreContextProvider = (props) => {
     const url = process.env.REACT_APP_API_URL || "http://localhost:4000"
     const [token , setToken] = useState("")
     
+    // Create axios instance with credentials
+    const api = axios.create({
+      baseURL: url,
+      withCredentials: true
+    });
 
     const [food_list, setFoodList] = useState([])
   
@@ -19,14 +24,14 @@ const StoreContextProvider = (props) => {
                }
 
                if (token) {
-                await axios.post(url+"/api/cart/add",{itemId},{headers:{token}})
+                await api.post("/api/cart/add",{itemId},{headers:{Authorization: token}})
                }
     }
 
     const removeFromCart = async (itemId)=>{
         setcartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}))
         if (token) {
-            await axios.post(url+"/api/cart/remove",{itemId},{headers:{token}})
+            await api.post("/api/cart/remove",{itemId},{headers:{Authorization: token}})
         }
     }
 
@@ -46,14 +51,13 @@ const StoreContextProvider = (props) => {
             return totalAmount;
      }
 
-     const  fetchFoodList  = async ()=> {
-              const response = await axios.get(url+"/api/food/list")
+     const  fetchFoodList  = async () => {
+              const response = await api.get("/api/food/list")
               setFoodList(response.data.data)
      }    
 
-
      const looadCartData = async (token) => {
-        const response = await axios.post(url+"/api/cart/get",{},{headers:{token}})
+        const response = await api.post("/api/cart/get",{},{headers:{Authorization: token}})
         setcartItems(response.data.cartData)
      }
 
