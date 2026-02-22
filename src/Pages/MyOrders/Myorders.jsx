@@ -1,19 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './MyOrders.css'
 import {StoreContext} from '../../context/StoreContext'
-import {assets} from '../../assets /assets.js'
+import {assets} from '../../assets/assets.js'
 import axios from 'axios'
 
 const Myorders = () => {
 
-const {url,token} = useContext(StoreContext)
+const {url, token} = useContext(StoreContext)
 const [data,setData] = useState([])
+
+// Create axios instance with credentials
+const api = axios.create({
+  baseURL: url,
+  withCredentials: true
+});
 
 
 const fetchOrders = async () => {
    try {
     
-const response = await axios.post(url+"/api/order/userorders",{},{headers:{Authorization: token}, withCredentials: true})
+const response = await api.post("/api/order/userorders",{},{headers:{Authorization: `Bearer ${token}`}})
      
      setData(response.data.data);
    } catch (error) {

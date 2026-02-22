@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 
 const PlaceOrder = () => {
 
-const { getTotalCartAmount,token ,food_list, cartItems,url} = useContext(StoreContext)
+const { getTotalCartAmount,token ,food_list, cartItems, url} = useContext(StoreContext)
 const [data, setData] = useState({
   firstname :"",
   lastname:"",
@@ -20,6 +20,12 @@ const [data, setData] = useState({
   phone:""
 
 })
+
+// Create axios instance with credentials
+const api = axios.create({
+  baseURL: url,
+  withCredentials: true
+});
 
 
 
@@ -55,7 +61,7 @@ const placeOrder = async (e) => {
 
          }
 
-         let response = await axios.post(url+"/api/order/place",orderData,{headers:{Authorization: token}, withCredentials: true})
+         let response = await api.post("/api/order/place",orderData,{headers:{Authorization: `Bearer ${token}`}})
          if (response.data.success) {
           const {session_url} = response.data;
           window.location.replace(session_url);

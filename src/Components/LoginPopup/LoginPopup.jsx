@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import './LoginPopup.css'
-import { assets } from '../../assets /assets'
+import { assets } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
 
@@ -14,6 +14,12 @@ const LoginPopup = ({setShowLogin}) => {
     })
 
     const {url,setToken} = useContext(StoreContext)
+
+    // Create axios instance with credentials
+    const api = axios.create({
+      baseURL: url,
+      withCredentials: true
+    });
 
 
     const onChangeHandler = (e) => {
@@ -31,7 +37,7 @@ const LoginPopup = ({setShowLogin}) => {
                 newUrl += "/api/user/register"
               }
 
-              const response = await axios.post(newUrl,data);
+              const response = await api.post(newUrl,data);
 
               if(response.data.success){
                      setToken(response.data.token)
